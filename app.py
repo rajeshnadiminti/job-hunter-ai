@@ -1,5 +1,5 @@
 """
-Job Hunter Pro — Multi-AI Career Command Center
+Job Hunter AI — Multi-AI Career Command Center
 A local Python/Flask application for AI-powered job hunting.
 Run: python app.py
 """
@@ -88,7 +88,7 @@ def call_ai(provider, api_key, model, system_prompt, user_message, web_search=Fa
         }
         body = {
             "model": model,
-            "max_tokens": 4096,
+            "max_tokens": 8192,
             "system": system_prompt,
             "messages": [{"role": "user", "content": user_message}],
         }
@@ -105,7 +105,7 @@ def call_ai(provider, api_key, model, system_prompt, user_message, web_search=Fa
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"}
         body = {
             "model": model,
-            "max_tokens": 4096,
+            "max_tokens": 8192,
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_message},
@@ -121,7 +121,7 @@ def call_ai(provider, api_key, model, system_prompt, user_message, web_search=Fa
         body = {
             "contents": [{"parts": [{"text": user_message}]}],
             "systemInstruction": {"parts": [{"text": system_prompt}]},
-            "generationConfig": {"maxOutputTokens": 4096},
+            "generationConfig": {"maxOutputTokens": 8192},
         }
         if web_search:
             body["tools"] = [{"googleSearch": {}}]
@@ -301,12 +301,12 @@ def ai_tool():
     title = job.get("title", "")
     company = job.get("company", "")
     location = job.get("location", "")
-    notes = job.get("notes", "")[:600]
+    notes = job.get("notes", "")[:2000]
 
     prompts = {
         "tailor": (
-            "Expert resume writer. Tailor this resume for the target job. Use ATS keywords, quantify achievements. Use clear sections: Summary, Experience, Skills, Education. Use ## for headings and - for bullet points.",
-            f"TARGET: {title} at {company}\n{('JD: ' + notes) if notes else ''}\n\nRESUME:\n{resume[:6000] or '(No resume loaded — give general advice)'}",
+            "Expert resume writer. Tailor this resume for the target job. Rewrite the COMPLETE resume — do not truncate or skip any section. Include all original experience entries, updated with ATS keywords and quantified achievements. Use clear sections: Summary, Experience, Skills, Education. Use ## for headings and - for bullet points. Output the full resume from top to bottom.",
+            f"TARGET: {title} at {company}\n{('JD: ' + notes) if notes else ''}\n\nRESUME:\n{resume[:12000] or '(No resume loaded — give general advice)'}",
             False
         ),
         "cover": (
@@ -412,7 +412,7 @@ def export_docx():
 # ═══════════════════════════════════════════════════════════
 if __name__ == "__main__":
     print("\n" + "=" * 60)
-    print("  JOB HUNTER PRO — Multi-AI Career Command Center")
+    print("  JOB HUNTER AI — Multi-AI Career Command Center")
     print("=" * 60)
     print(f"\n  Open in browser:  http://localhost:5000")
     print(f"  Data stored in:   {DATA_FILE}")

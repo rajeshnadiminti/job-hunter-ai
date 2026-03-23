@@ -1,12 +1,12 @@
 #!/bin/bash
-# Job Hunter Pro — Quick Setup & Run
+# Job Hunter AI — Quick Setup & Run
 # Usage: chmod +x run.sh && ./run.sh
 
 set -e
 
 echo ""
 echo "═══════════════════════════════════════════════════"
-echo "  JOB HUNTER PRO — Setup & Launch"
+echo "  JOB HUNTER AI — Setup & Launch"
 echo "═══════════════════════════════════════════════════"
 echo ""
 

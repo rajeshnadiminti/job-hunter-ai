@@ -1,4 +1,4 @@
-# Job Hunter Pro — Python Edition
+# Job Hunter AI — Python Edition
 
 ## Multi-AI Career Command Center (Local Python/Flask App)
 
@@ -11,7 +11,7 @@ A complete job hunting command center that runs locally on your Mac. No cloud de
 Open Terminal on your Mac and run:
 
 ```bash
-cd job-hunter-pro
+cd job-hunter-ai
 chmod +x run.sh
 ./run.sh
 ```
@@ -23,7 +23,7 @@ That's it. Open **http://localhost:5000** in your browser.
 ## Manual Setup (if run.sh doesn't work)
 
 ```bash
-cd job-hunter-pro
+cd job-hunter-ai
 
 # Create virtual environment
 python3 -m venv venv
@@ -52,7 +52,7 @@ Open **http://localhost:5000**.
 ## Project Structure
 
 ```
-job-hunter-pro/
+job-hunter-ai/
 ├── app.py              ← Flask backend (all API routes, AI calls, file processing)
 ├── templates/
 │   └── index.html      ← Frontend (HTML + CSS + JavaScript, single file)
@@ -138,7 +138,7 @@ You need at least one. All three are optional — use whichever you prefer.
 ### AI Tools (select any tracked job)
 | Tool | What It Does | Download |
 |------|-------------|----------|
-| Tailor Resume | Rewrites resume with ATS keywords for specific job | .docx ✓ |
+| Tailor Resume | Rewrites complete resume with ATS keywords for specific job | .docx ✓ |
 | Cover Letter | Personalized cover letter for company/role | .docx ✓ |
 | Elevator Pitch | Professional summary + LinkedIn headline + bio | .docx ✓ |
 | Interview Prep | 10 likely questions + answer frameworks | Copy ✓ |
@@ -164,8 +164,8 @@ You need at least one. All three are optional — use whichever you prefer.
 | | React (artifact) | Python (this) |
 |---|---|---|
 | Setup | Zero (runs in Claude.ai) | 2 min (python + pip) |
-| AI proxy limits | 1000 tokens, truncated prompts | Full 4096 tokens, no limits |
-| Resume size | Truncated to ~2500 chars | Full resume (6000+ chars) |
+| AI proxy limits | 1000 tokens, truncated prompts | Full 8192 tokens, no limits |
+| Resume size | Truncated to ~2500 chars | Full resume (12000+ chars) |
 | PDF parsing | Needs AI API call | Local with pdfplumber (free, private) |
 | DOCX output | HTML-based hack | Real .docx with python-docx |
 | Data persistence | Gone on refresh | Saved in data.json forever |
@@ -189,7 +189,7 @@ Edit the `PLAT_COLORS` object in `templates/index.html` and add the platform to 
 Edit the `prompts` dict in the `ai_tool()` function in `app.py`. Each tool has a `(system_prompt, user_prompt, web_search)` tuple you can customize.
 
 ### Increase max tokens
-In `app.py`, find `"max_tokens": 4096` in the `call_ai()` function and increase to `8192` or higher.
+In `app.py`, find `"max_tokens": 8192` in the `call_ai()` function. Default is 8192 — increase further for even longer outputs.
 
 ---
 
@@ -224,10 +224,20 @@ AI API calls take 5-30 seconds depending on the provider and model. This is norm
 | Action | Claude Sonnet 4.6 | GPT-5.4 Mini | Gemini 2.5 Flash |
 |--------|-------------------|--------------|------------------|
 | Job search | ~$0.01-0.03 | ~$0.01-0.03 | Free tier |
-| Resume tailor | ~$0.01 | ~$0.01 | Free tier |
+| Resume tailor | ~$0.02-0.04 | ~$0.02-0.04 | Free tier |
 | Cover letter | ~$0.01 | ~$0.01 | Free tier |
 | Interview prep | ~$0.01 | ~$0.01 | Free tier |
 | **Daily use** | **~$0.10-0.30** | **~$0.10-0.30** | **Free** |
+
+---
+
+## Recent Changes
+
+### Resume Generation Fix
+- **Increased output token limit** from 4096 → 8192 for all providers (Anthropic, OpenAI, Gemini) — prevents the tailored resume from being cut off mid-generation
+- **Increased resume input limit** from 6000 → 12000 characters — ensures long resumes are fully sent to the AI
+- **Increased job description limit** from 600 → 2000 characters — gives the AI more context from the JD for better tailoring
+- **Improved Tailor Resume prompt** — now explicitly instructs the AI to output the complete resume without truncating any section
 
 ---
 
